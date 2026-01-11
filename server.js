@@ -60,12 +60,13 @@ app.post("/api/kaydet", (req, res) => {
   res.json({ ok: true });
 });
 
-// 🔐 LİSTE API (ŞİFRELİ)
-app.get("/api/liste", basicAuth, (req, res) => {
+// 📋 LİSTE API (sayfa arkasında, şifresiz)
+app.get("/api/liste", (req, res) => {
   db.all("SELECT * FROM talepler ORDER BY tarih DESC", (err, rows) => {
     res.json(rows);
   });
 });
+
 
 // 🔐 LİSTE SAYFASI (ŞİFRELİ)
 app.get("/liste.html", basicAuth, (req, res) => {
@@ -78,4 +79,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server çalışıyor: ${PORT}`);
 });
+
 
