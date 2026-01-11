@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Gelen Değerleme Talepleri</title>
+</head>
+<body>
+
+<h2>Gelen Değerleme Talepleri</h2>
+
+<table border="1" cellpadding="5">
+  <thead>
+    <tr>
+      <th>Tarih</th>
+      <th>Tür</th>
+      <th>İl</th>
+      <th>İlçe</th>
+      <th>Mahalle</th>
+      <th>m²</th>
+      <th>Ad Soyad</th>
+      <th>Telefon</th>
+    </tr>
+  </thead>
+  <tbody id="liste"></tbody>
+</table>
+
+<script>
+fetch("/api/liste")
+  .then(res => res.json())
+  .then(data => {
+    const tbody = document.getElementById("liste");
+    data.forEach(k => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${k.tarih}</td>
+        <td>${k.tur}</td>
+        <td>${k.il}</td>
+        <td>${k.ilce}</td>
+        <td>${k.mahalle}</td>
+        <td>${k.metrekare}</td>
+        <td>${k.adsoyad}</td>
+        <td>${k.telefon}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  });
+</script>
+
+</body>
+</html>
