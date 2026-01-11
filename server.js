@@ -35,13 +35,15 @@ app.post("/api/kaydet", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log("Server çalışıyor, port:", PORT);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server çalışıyor: ${PORT}`);
 });
+
 
 app.get("/api/liste", (req, res) => {
   db.all("SELECT * FROM talepler ORDER BY tarih DESC", (err, rows) => {
     res.json(rows);
   });
 });
+
 
