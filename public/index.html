@@ -1,1 +1,65 @@
-deneme
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ücretsiz Gayrimenkul Değerleme</title>
+</head>
+<body>
+
+<h2>Ücretsiz Gayrimenkul Değerleme Formu</h2>
+
+<form id="degerlemeForm">
+  <label>Gayrimenkul Türü</label><br>
+  <select name="tur" required>
+    <option>Daire</option>
+    <option>Villa</option>
+    <option>Arsa</option>
+    <option>Tarla</option>
+    <option>Ticari</option>
+  </select><br><br>
+
+  <label>İl</label><br>
+  <input type="text" name="il" value="İstanbul"><br><br>
+
+  <label>İlçe</label><br>
+  <input type="text" name="ilce" value="Silivri"><br><br>
+
+  <label>Mahalle</label><br>
+  <input type="text" name="mahalle" required><br><br>
+
+  <label>m²</label><br>
+  <input type="number" name="metrekare" required><br><br>
+
+  <label>Ad Soyad</label><br>
+  <input type="text" name="adsoyad" required><br><br>
+
+  <label>Telefon</label><br>
+  <input type="tel" name="telefon" required><br><br>
+
+  <label>
+    <input type="checkbox" required>
+    Kişisel verilerimin değerleme amacıyla kullanılmasını kabul ediyorum.
+  </label><br><br>
+
+  <button type="submit">Ücretsiz Değerleme Al</button>
+</form>
+
+<script>
+document.getElementById("degerlemeForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const formData = Object.fromEntries(new FormData(this));
+
+  await fetch("/api/kaydet", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData)
+  });
+
+  alert("Talebiniz alındı, sizinle iletişime geçilecektir.");
+  this.reset();
+});
+</script>
+
+</body>
+</html>
