@@ -25,7 +25,10 @@
 </table>
 
 <script>
-fetch("/api/liste")
+fetch("/api/liste", {
+  credentials: "same-origin"
+})
+
   .then(res => res.json())
   .then(data => {
     const tbody = document.getElementById("liste");
@@ -48,3 +51,4 @@ fetch("/api/liste")
 
 </body>
 </html>
+
