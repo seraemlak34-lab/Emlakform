@@ -7,7 +7,11 @@ app.use(express.static("public"));
 
 // 🔐 BASIC AUTH (LİSTE KORUMASI)
 const basicAuth = (req, res, next) => {
+  console.log("ENV USER:", process.env.ADMIN_USER);
+  console.log("ENV PASS:", process.env.ADMIN_PASS);
+
   const auth = req.headers.authorization;
+
 
   if (!auth) {
     res.setHeader("WWW-Authenticate", "Basic");
@@ -80,6 +84,9 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server çalışıyor: ${PORT}`);
 });
+
+
+
 
 
 
