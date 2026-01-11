@@ -3,7 +3,7 @@ const sqlite3 = require("sqlite3").verbose();
 
 const app = express();
 app.use(express.json());
-app.use(express.static("."));
+app.use(express.static("public"));
 
 // 🔐 BASIC AUTH (LİSTE KORUMASI)
 const basicAuth = (req, res, next) => {
@@ -79,5 +79,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server çalışıyor: ${PORT}`);
 });
+
 
 
