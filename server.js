@@ -23,16 +23,15 @@ const basicAuth = (req, res, next) => {
     .toString()
     .split(":");
 
-  // 👉 BURAYI İSTEDİĞİN GİBİ DEĞİŞTİREBİLİRSİN
- if (
-  user === process.env.ADMIN_USER &&
-  pass === process.env.ADMIN_PASS
-) {
+ // 🔐 SABİT YÖNETİCİ BİLGİLERİ
+const ADMIN_USER = "seraemlak";
+const ADMIN_PASS = "Sera0611!";
+
+if (user === ADMIN_USER && pass === ADMIN_PASS) {
   next();
-  } else {
-    return res.status(401).send("Hatalı kullanıcı");
-  }
-};
+} else {
+  return res.status(401).send("Hatalı kullanıcı");
+}
 
 // 📦 VERİTABANI
 const db = new sqlite3.Database("veriler.db");
@@ -84,6 +83,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server çalışıyor: ${PORT}`);
 });
+
 
 
 
