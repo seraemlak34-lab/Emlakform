@@ -5,6 +5,29 @@ const app = express();
 app.use(express.json());
 app.use(express.static("."));
 
+// 🔐 BASIC AUTH (LİSTE KORUMASI)
+const basicAuth = (req, res, next) => {
+  const auth = req.headers.authorization;
+
+  if (!auth) {
+    res.setHeader("WWW-Authenticate", "Basic");
+    return res.status(401).send("Yetkisiz erişim");
+  }
+
+  const base64 = auth.split(" ")[1];
+  const [user, pass] = Buffer.from(base64, "base64")
+    .toString()
+    .split(":");
+
+  // 👉 BURAYI İSTEDİĞİN GİBİ DEĞİŞTİREBİLİRSİN
+  if (user === "seraemlak" && pass === "Sera0611!") {
+    next();
+  } else {
+    return res.status(401).send("Hatalı kullanıcı");
+  }
+};
+
+// 📦 VERİTABANI
 const db = new sqlite3.Database("veriler.db");
 
 db.run(`
@@ -21,6 +44,7 @@ CREATE TABLE IF NOT EXISTS talepler (
 )
 `);
 
+// 📝 FORM KAYIT
 app.post("/api/kaydet", (req, res) => {
   const d = req.body;
 
@@ -33,17 +57,21 @@ app.post("/api/kaydet", (req, res) => {
   res.json({ ok: true });
 });
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server çalışıyor: ${PORT}`);
-});
-
-
-app.get("/api/liste", (req, res) => {
+// 🔐 LİSTE API (ŞİFRELİ)
+app.get("/api/liste", basicAuth, (req, res) => {
   db.all("SELECT * FROM talepler ORDER BY tarih DESC", (err, rows) => {
     res.json(rows);
   });
 });
 
+// 🔐 LİSTE SAYFASI (ŞİFRELİ)
+app.get("/liste.html", basicAuth, (req, res) => {
+  res.sendFile(__dirname + "/liste.html");
+});
 
+// 🚀 SUNUCU
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server çalışıyor: ${PORT}`);
+});
